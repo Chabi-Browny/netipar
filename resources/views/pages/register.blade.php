@@ -1,5 +1,8 @@
 @extends('layout')
 
 @section('content')
-<div>register</div>
+    <h2 class="text-2xl font-bold underline">
+        {{ $title }}
+    </h2> 
+    <!-- her comes the form -->
 @endsection()

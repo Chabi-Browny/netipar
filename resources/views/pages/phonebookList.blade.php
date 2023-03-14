@@ -1,5 +1,7 @@
 @extends('layout')
 
 @section('content')
-<div>phonebookList</div>
+    <h2 class="text-2xl font-bold underline">
+        {{ $title }}
+    </h2> 
 @endsection()
