@@ -15,17 +15,17 @@ class MainSchema extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('addresse', 64)->nullable();
-            $table->text('mail_addresse', 64)->nullable();
+            $table->string('name', 64);
+            $table->text('address')->nullable();
+            $table->text('mail_address')->nullable();
             $table->string('photo')->nullable();
             $table->timestamps();
         });
         Schema::create('contacts', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('email')->unique();
-            $table->string('phone', 64)->unique();
+            $table->string('email', 128)->unique();
+            $table->unsignedInteger('phone')->unique();
             $table->foreign('user_id')->references('id')->on('users');
         });
     }

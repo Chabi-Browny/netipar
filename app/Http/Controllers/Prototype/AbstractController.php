@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Prototype;
 //use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 //use Illuminate\Foundation\Bus\DispatchesJobs;
 //use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Routing\UrlGenerator;
 
 /**
  * Description of AbstractController
@@ -16,18 +17,25 @@ class AbstractController extends BaseController
 {
     protected $viewName = '';
     protected $viewData = [];
+    /**
+     * @var Request
+     */
     protected $request;
+    protected $urlGen;
 //    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     
-    public function __construct(Request $request)
+    public function __construct(Request $request, UrlGenerator $urlGen)
     {
         $this->request = $request;
+        
+        $this->urlGen = $urlGen;
         
         $this->init();
     }
     
     public function init(){}
     
+    /**/
     public function index()
     {
         return $this->render();
@@ -48,15 +56,20 @@ class AbstractController extends BaseController
         $this->viewData[$dataKey] = $data;
     }
     
+    /**
+     * @desc - This method renders the current page, if has correct view filename
+     * @return \Illuminate\View\View
+     * @throws Exception
+     */
     public function render()
     {
         if (empty($this->viewName))
         {
             throw new Exception('Missing view name');
         }
-        
+
         $viewData = array_merge(
-            ['baseUrl' => $this->request->url('/')],
+            ['baseUrl' => $this->urlGen->to('/')],
             $this->viewData
         );
         
