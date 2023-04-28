@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Users extends Model
+class Persons extends Model
 {
 
     /**
@@ -17,7 +17,7 @@ class Users extends Model
         'addresse',
         'mail_addresse',
     ];
-    
-    
+
+
 
 }

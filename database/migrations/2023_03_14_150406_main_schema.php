@@ -13,7 +13,7 @@ class MainSchema extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('persons', function (Blueprint $table) {
             $table->id();
             $table->string('name', 64);
             $table->text('address')->nullable();
@@ -26,7 +26,7 @@ class MainSchema extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('email', 128)->unique();
             $table->unsignedInteger('phone')->unique();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('persons');
         });
     }
 
@@ -38,6 +38,6 @@ class MainSchema extends Migration
     public function down()
     {
         Schema::drop('contacts');
-        Schema::drop('users');
+        Schema::drop('persons');
     }
 }

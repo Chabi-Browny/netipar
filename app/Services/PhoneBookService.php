@@ -7,7 +7,8 @@ namespace App\Services;
  *
  * @author csbb
  */
-class PhoneBookService 
+class PhoneBookService
 {
     //place of the db methods
+    public function register(){}
 }
