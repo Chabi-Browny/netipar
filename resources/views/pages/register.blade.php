@@ -8,7 +8,7 @@
                 <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900 underline">{{ $title }}</h2>
             </div>
             <div class="">
-                <form class="space-y-6" action="{{ $baseUrl }}/register" method="POST" enctype="multipart/form-data">
+                <form class="space-y-6" action="{{ route("subreg") }}" method="POST" enctype="multipart/form-data">
 
                     <div class=" shadow-sm">
                         <div class="flex items-center justify-between mb-2">
@@ -42,7 +42,7 @@
                     </div>
                     @csrf
                     <div>
-                        <button type="submit" class="inline-flex justify-center rounded-md bg-indigo-600 py-2 px-3
+                        <button type="submit" class="rounded-md bg-indigo-600 py-2 px-3
                             text-sm font-semibold text-white shadow-sm hover:bg-indigo-500
                             focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
                         >Save</button>

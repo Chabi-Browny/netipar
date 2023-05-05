@@ -17,4 +17,4 @@ Route::get('/', 'HomeController@index');
 
 Route::get('/list', 'PhoneBookController@index');
 Route::get('/register', 'PhoneBookRegisterController@index');
-Route::post('/register', 'PhoneBookRegisterController@register');
+Route::post('/register', 'PhoneBookRegisterController@register')->name('subreg');
