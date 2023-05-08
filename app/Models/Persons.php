@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Contacts;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-
-use App\Models\Contacts;
 
 /**
  * Description of Persons

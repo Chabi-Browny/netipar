@@ -23,10 +23,10 @@ class MainSchema extends Migration
         });
         Schema::create('contacts', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('persons_id');
             $table->string('email', 128)->unique();
-            $table->unsignedInteger('phone')->unique();
-            $table->foreign('user_id')->references('id')->on('persons');
+            $table->unsignedInteger('phone')->unique()->nullable();
+            $table->foreign('persons_id')->references('id')->on('persons');
         });
     }
 

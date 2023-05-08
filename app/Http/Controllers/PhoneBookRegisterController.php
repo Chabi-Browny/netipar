@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Prototype\AbstractController;
-use Illuminate\Support\Facades\Validator;
-//use Illuminate\Http\Request;
-
 use App\Handler\FileStorageHandler;
 use App\Services\PhoneBookService;
+
+use Illuminate\Support\Facades\Validator;
 
 class PhoneBookRegisterController extends AbstractController
 {
@@ -18,7 +17,9 @@ class PhoneBookRegisterController extends AbstractController
         $this->setViewData('title', 'Phonebook Register');
     }
 
-    /**/
+    /**
+     * @desc - Create or Update a new person through the registration process
+     */
     public function register()
     {
         $retVal = null;
@@ -27,23 +28,36 @@ class PhoneBookRegisterController extends AbstractController
 
         $requests = $this->request->all();
 
-        $mailAddress = $this->request->post('mailAddress');
-        $mailAddressRules = 'alpha_num';
-
-        if (array_key_exists('sameAddress', $requests))
-        {
-            $mailAddress = $this->request->post('address'); // it's good to be the frontend work !!!!
-            $mailAddressRules .= '|same:address';
-        }
-
         $inputRules = [
             'name' => 'alpha',
             'email' => 'required|email|unique:contacts,email',
-            'photo' => 'file|max:1024|mimes:jpg,bmp,png',//checking mime 246264
-            'mphone' => 'unique:contacts,phone|max:16',
-            'address' => 'alpha_num',
-            'mailAddress' => $mailAddressRules///////(Amennyiben ugyan az, akkor csak 1x kelljen kitölteni) |same:address
+            'photo' => 'file|max:1024|mimes:jpg,bmp,png',
         ];
+
+        $mailAddress = $this->request->post('mailAddress');
+        $mailAddressRules = 'alpha_num';
+
+        if (array_key_exists('sameAddress', $requests))// if the checkbox selected
+        {
+            $mailAddress = $this->request->post('address'); // it's good to be the frontend work !!!!
+
+            $mailAddressRules .= '|same:address';
+        }
+
+        if (isset($requests['mphone']))
+        {
+            $inputRules['mphone'] = 'unique:contacts,phone|max:10';
+        }
+
+        if (isset($requests['address']))
+        {
+            $inputRules['address'] = 'alpha_num';
+
+            if ($mailAddress !== null)
+            {
+                $inputRules['mailAddress'] = $mailAddressRules;
+            }
+        }
 
         $messages = [
             'mailAddress.same' => 'The :other and :attribute must match !'
@@ -57,15 +71,14 @@ class PhoneBookRegisterController extends AbstractController
         if ($this->request->file('photo') !== null) {
             $fileHandler = new FileStorageHandler($this->request->file('photo'));
         }
-//dump($fileHandler);
 
         $phoneBookeServ = new PhoneBookService();
 
         // check if exist the current user
         $personCheckResult = $phoneBookeServ->checkPersonExistance( $this->request->post('name') );
-dump($personCheckResult[0]);
+dump($personCheckResult);
 
-        if ( $personCheckResult === [])
+        if ( $personCheckResult === null)
         {
             $addedFile = $fileHandler !== null ? $fileHandler->addFile() : null;
             ///add new user
@@ -75,31 +88,17 @@ dump($personCheckResult[0]);
         {
             if ($fileHandler !== null)
             {
-                $addedFile = $fileHandler->changeFile($personCheckResult[0]['photo']);
+                $photo = $personCheckResult['photo'] !== null ? $personCheckResult['photo'] : $fileHandler->addFile();
 
-            dump($addedFile);
-            dd('szivacs');
-
-                ///then check if has an uploaded file, indicates from the db photo namePath
-                /// and if has, then delete it (but it could be warn the user if it has another photo currently, so he/she need to be prove it the acceptance to do it)
-                /// and then upload and update the db too
+                // and if has, then delete it (but it could be warn the user if it has another photo currently, so he/she need to be prove it the acceptance to do it)
+                // and then upload
+                $addedFile = $fileHandler->changeFile($photo);
+                // and after than update the db too
             }
-
-            $phoneBookeServ->updatePerson($requests, $personCheckResult[0]['id'], $addedFile);
-        ///and if so, than update the profile if have new stuff
-            ///update old users
+            $phoneBookeServ->updatePerson($requests, $personCheckResult['person'], $addedFile);
         }
 
-//        dump($file->storeAs($mailAddressRules, $name, $messages));
-dump($retVal);
-dd('STOP AT:' . __METHOD__);
-
-    }
-
-    /**/
-    public function list()
-    {
-
+        return redirect('register')->with('regSucc', 'Registration success!');///////////////////////////////////////////////////////WIP
     }
 
 }

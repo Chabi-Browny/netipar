@@ -49,6 +49,11 @@
                     </div>
                 </form>
             </div>
+            <!--why???-->
+            @if(!empty($regSucc))
+                dump($regSucc)
+            @endif
+
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>

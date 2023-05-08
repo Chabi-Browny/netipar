@@ -11,4 +11,11 @@ class PhoneBookController extends AbstractController
         $this->setViewName('pages/phonebookList');
         $this->setViewData('title', 'Phonebook List');
     }
+
+    /**/
+    public function list()
+    {
+
+    }
+
 }
