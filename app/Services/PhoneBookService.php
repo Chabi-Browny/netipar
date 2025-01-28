@@ -103,7 +103,7 @@ class PhoneBookService
                 {
                     $hasRequestedEmail = true;
                 }
-                else if(($oldContact['email'] === $requestData['email']) && ($requestData['phone'] === null))
+                else if (($oldContact['email'] === $requestData['email']) && ($requestData['phone'] === null))
                 {
                     continue;
                 }
@@ -143,8 +143,19 @@ class PhoneBookService
     /**/
     public function getPersons(): array
     {
+        $retVal = [];
         $persons = new Persons();
 
-        return $persons->get()->toArray();
+        if ($persons !== null)
+        {
+            // persons with thier contacts !  :) S.D.G. && P.G.A.! :)
+            $retVal = $persons::with('contacts')
+                ->select('persons.id', 'persons.name', 'persons.address', 'persons.mail_address', 'persons.photo')
+                ->get()
+                ->toArray();
+        }
+
+        return $retVal;
     }
+
 }

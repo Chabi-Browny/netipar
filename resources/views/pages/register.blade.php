@@ -1,7 +1,6 @@
 @extends('layout')
 
 @section('content')
-    <!-- her comes the form -->
     <div class="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col space-y-8 items-center w-full max-w-md">
             <div>
@@ -49,10 +48,11 @@
                     </div>
                 </form>
             </div>
-            <!--why???-->
+            <!--
             @if(!empty($regSucc))
                 dump($regSucc)
             @endif
+            -->
 
             @if ($errors->any())
                 <div class="alert alert-danger">
