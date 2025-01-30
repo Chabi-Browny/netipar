@@ -23,39 +23,50 @@ class AbstractController extends BaseController
     protected $request;
     protected $urlGen;
 //    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-    
+
     public function __construct(Request $request, UrlGenerator $urlGen)
     {
         $this->request = $request;
-        
+
         $this->urlGen = $urlGen;
-        
+
         $this->init();
     }
-    
+
     public function init(){}
-    
+
     /**/
     public function index()
     {
         return $this->render();
     }
 
+    /**
+     * @desc - Setting up the view name, which is the view file name partly,
+     *  and the possible sub folder name, if it's necessary
+     * @param string $viewName
+     */
     public function setViewName(string $viewName)
     {
         $this->viewName = $viewName;
     }
-    
+
+    /**
+     * @desc - setting up the date for the actual view
+     * @param string $dataKey
+     * @param type $data
+     * @throws Exception
+     */
     public function setViewData(string $dataKey, $data)
     {
         if (array_key_exists($dataKey, $this->viewData))
         {
             throw new Exception('Data key is reserved');
         }
-        
+
         $this->viewData[$dataKey] = $data;
     }
-    
+
     /**
      * @desc - This method renders the current page, if has correct view filename
      * @return \Illuminate\View\View
@@ -72,7 +83,7 @@ class AbstractController extends BaseController
             ['baseUrl' => $this->urlGen->to('/')],
             $this->viewData
         );
-        
+
         return view($this->viewName, $viewData);
     }
 }
