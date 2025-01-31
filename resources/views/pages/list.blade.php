@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-col space-y-8 items-center w-full max-w-md">
+        <div class="flex flex-col space-y-8 items-center w-full">
             <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900 underline">
                 {{ $title }}
             </h2>
@@ -10,11 +10,12 @@
                 <table class="table-auto border-collapse border-2 border-gray-400">
                     <thead>
                         <tr>
-                            <th class="border-2 border-gray-300">#</th>
-                            <th class="border-2 border-gray-300">name</th>
-                            <th class="border-2 border-gray-300">address</th>
-                            <th class="border-2 border-gray-300">photo</th>
-                            <th colspan="2" class="border border-gray-300">contact</th>
+                            <th class="border-2 border-gray-400 w-6 max-w-8">#</th>
+                            <th class="border-2 border-gray-400">name</th>
+                            <th class="border-2 border-gray-400">address</th>
+                            <th class="border-2 border-gray-400">photo</th>
+                            <th colspan="2" class="border-2 border-gray-400">contact</th>
+                            <!--<th colspan="2" class="border-2 border-gray-400">action</th>-->
                         </tr>
                     </thead>
                     <tbody>
@@ -24,21 +25,21 @@
                             foreach ($list as $item)
                             {
                         ?>
-                            <tr>
-                                <td class="border-2 border-gray-300"><?php echo $counter; ?></td>
-                                <td class="border-2 border-gray-300"><?php if(!empty($item['name'])) echo $item['name']; ?></td>
-                                <td class="border-2 border-gray-300"><?php if(!empty($item['address'])) echo $item['address']; ?></td>
-                                <td class="border-2 border-gray-300"><?php echo $photoInfo; ?></td>
-                                <td colspan="2" class="border border-gray-300">
+                            <tr class="text-center">
+                                <td class="border-2 border-gray-400 w-6 max-w-8"><?php echo $counter; ?></td>
+                                <td class="border-2 border-gray-400"><?php if(!empty($item['name'])) echo $item['name']; ?></td>
+                                <td class="border-2 border-gray-400"><?php if(!empty($item['address'])) echo $item['address']; ?></td>
+                                <td class="border-2 border-gray-400"><?php echo $photoInfo; ?></td>
+                                <td colspan="2" class="border-2 border-gray-400">
                                     <?php
                                         if (!empty($item['contacts']) )
                                         {
                                             ?>
-                                                <table class="table-auto">
+                                                <table class="border-collapse  w-full">
                                                     <thead>
                                                         <tr>
-                                                            <th>email</th>
-                                                            <th>phone</th>
+                                                            <th class="border-2 border-gray-400">email</th>
+                                                            <th class="border-2 border-gray-400">phone</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -47,8 +48,8 @@
                                                         {
                                                             ?>
                                                             <tr>
-                                                                <td><?php if(!empty($contact['email'])) echo $contact['email']; ?></td>
-                                                                <td><?php if(!empty($contact['phone'])) echo $contact['phone']; ?></td>
+                                                                <td class="border-2 border-gray-400"><?php if(!empty($contact['email'])) echo $contact['email']; ?></td>
+                                                                <td class="border-2 border-gray-400"><?php if(!empty($contact['phone'])) echo $contact['phone']; ?></td>
                                                             </tr>
                                                             <?php
                                                         }
@@ -59,8 +60,13 @@
                                         }
                                     ?>
                                 </td>
+<!--                                <td colspan="2">
+                                    <a></a>
+                                    <a></a>
+                                </td>-->
                             </tr>
                         <?php
+                                $counter++;
                             }
                         ?>
                         <tr>
